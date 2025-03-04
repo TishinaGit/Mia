@@ -4,13 +4,14 @@ using Zenject;
 
 namespace _Project.Scripts.LevelSystem
 {
-    public class ScrollBoundaryHandler : MonoBehaviour
+    public class ScrollBoundaryHandler : MonoBehaviour // Управляет логикой перемещением объектов внутри сцены 
     {
         private const float EdgeThreshold = 200f;
         private const float ScrollSpeed = 0.5f;
         private ScrollRect _scrollRect;
         private  RectTransform _content;
         private  RectTransform _canvasRect;
+        private int _offset = 150;
         
         [Inject] public void Construct(ScrollRect scrollRect, RectTransform content)
         {
@@ -19,7 +20,7 @@ namespace _Project.Scripts.LevelSystem
             _canvasRect = scrollRect.GetComponent<RectTransform>();
         }
 
-        public void ClampToBounds(Transform item)
+        public void ClampToBounds(Transform item) // Ограничение перемещения 
         {
             Vector3[] corners = new Vector3[4];
             _content.GetWorldCorners(corners);
@@ -30,13 +31,13 @@ namespace _Project.Scripts.LevelSystem
             float topLimit = corners[1].y;
 
             Vector3 newPosition = item.position;
-            newPosition.x = Mathf.Clamp(newPosition.x, leftLimit + 150f, rightLimit - 150f);
-            newPosition.y = Mathf.Clamp(newPosition.y, bottomLimit + 150f, topLimit - 150f);
+            newPosition.x = Mathf.Clamp(newPosition.x, leftLimit + _offset, rightLimit - _offset);
+            newPosition.y = Mathf.Clamp(newPosition.y, bottomLimit + _offset, topLimit - _offset);
 
             item.position = newPosition;
         }
 
-        public void ScrollIfNearEdge(Transform item)
+        public void ScrollIfNearEdge(Transform item) // Скрол при приближении к краю
         {
             Vector3[] corners = new Vector3[4];
             _canvasRect.GetWorldCorners(corners);

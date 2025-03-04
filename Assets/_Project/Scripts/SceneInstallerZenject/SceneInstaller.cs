@@ -5,7 +5,7 @@ using Zenject;
 
 namespace _Project.Scripts.SceneInstallerZenject
 {
-    public class SceneInstaller :  MonoInstaller
+    public class SceneInstaller :  MonoInstaller 
     {
         public ScrollRect ScrollRect;
         public RectTransform Content;  
